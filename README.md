@@ -9,3 +9,20 @@
 - Features: `feature/*` → `develop`
 - Releases: `release/*` → `main` (and back-merge to `develop`)
 - Hotfixes: `hotfix/*` → `main` (and back-merge to `develop`)
+
+name: CI
+on:
+  push:
+    branches: [ develop, main, 'feature/**' ]
+  pull_request:
+    branches: [ develop, main ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci
+      - run: npm test --if-present
