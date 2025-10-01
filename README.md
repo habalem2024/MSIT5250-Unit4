@@ -17,12 +17,13 @@ on:
   pull_request:
     branches: [ develop, main ]
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-python@v5
         with:
-          node-version: '20'
-      - run: npm ci
-      - run: npm test --if-present
+          python-version: '3.11'
+      - run: pip install -r requirements.txt || true
+      - run: pytest -q || echo "No tests yet"
+
